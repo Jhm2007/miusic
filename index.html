@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos Musicales</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .product-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Gestión de Productos Musicales
+</header>
+
+<div class="container">
+    <form id="productForm">
+        <div class="form-group">
+            <label for="productName">Nombre del Producto:</label>
+            <input type="text" id="productName" placeholder="Ingrese el nombre del producto" required>
+        </div>
+        <div class="form-group">
+            <label for="productPrice">Precio del Producto:</label>
+            <input type="number" id="productPrice" placeholder="Ingrese el precio" required>
+        </div>
+        <div class="form-group">
+            <label for="productImage">URL de la Imagen:</label>
+            <input type="text" id="productImage" placeholder="Ingrese la URL de la imagen" required>
+        </div>
+        <button type="submit" class="btn btn-success">Agregar Producto</button>
+    </form>
+
+    <h3>Lista de Productos</h3>
+    <table id="productTable">
+        <thead>
+            <tr>
+                <th>Nombre del Producto</th>
+                <th>Precio</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.getElementById('productForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const productName = document.getElementById('productName').value;
+        const productPrice = document.getElementById('productPrice').value;
+        const productImage = document.getElementById('productImage').value;
+
+        const tableBody = document.getElementById('productTable').querySelector('tbody');
+        const newRow = document.createElement('tr');
+
+        newRow.innerHTML = `
+            <td>${productName}</td>
+            <td>${productPrice} €</td>
+            <td><img src="${productImage}" alt="${productName}" class="product-img"></td>
+            <td class="actions">
+                <button class="btn btn-success">Comprar</button>
+                <button class="btn btn-danger">Eliminar</button>
+            </td>
+        `;
+
+        tableBody.appendChild(newRow);
+
+        document.getElementById('productForm').reset();
+    });
+
+    document.getElementById('productTable').addEventListener('click', function(e) {
+        if (e.target.classList.contains('btn-danger')) {
+            e.target.closest('tr').remove();
+        } else if (e.target.classList.contains('btn-success')) {
+            const productName = e.target.closest('tr').querySelector('td').textContent;
+            const productPrice = e.target.closest('tr').querySelector('td:nth-child(2)').textContent;
+            alert(`Has seleccionado comprar "${productName}" por ${productPrice}`);
+        }
+    });
+</script>
+
+</body>
+</html>
